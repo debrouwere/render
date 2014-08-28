@@ -28,30 +28,33 @@ render page.jade \
 
 ### Namespacing
 
+
+Explicit namespaces: put `globals.json` in a `globals` key rather than at the root of the context object.
+
 ```sh
-# explicit namespaces: put `globals.json`
-# in a `globals` key rather than at the 
-# root of the context object
 render page.jade \
     --input globals:globals.json,page.json
-# automatic namespaces: inside of the 
-# context object, `globals.json` data
-# will be available under `globals`
-# and `page.json` data under `page`
+```
+
+Automatic namespaces: inside of the context object, `globals.json` data will be available under `globals` and `page.json` data under `page`.
+
+```sh
 render page.jade \
     --input globals.json,page.json
     --namespaced
-# automatic namespaces using the full path:
-# `helpers/globals.json` will be accessible 
-# at `helpers.globals` and `page.json` will 
-# be under `page`.
+```
+
+Automatic namespaces using the full path: `helpers/globals.json` will be accessible at `helpers.globals` and `page.json` will be under `page`.
+
+```sh
 render page.jade \
     --input helpers/globals.json,page.json
     --fully-namespaced
-# explicit namespaces take preference over 
-# automatic ones, so these globals will be 
-# available under `globals` rather than
-# `helpers.globals`
+```
+
+Explicit namespaces take preference over automatic ones, so these globals will be available under `globals` rather than `helpers.globals`:
+
+```sh
 render page.jade \
     --input globals:helpers/globals.json,page.json
     --fully-namespaced
@@ -80,6 +83,7 @@ render tableofcontents.jade \
     --input pages.json
     --output 'pages/{permalink}'
     --iterate
+```
 
 If the array to iterate over is not at the root of the JSON file but is an property on an object, specify the key to that property: 
 
