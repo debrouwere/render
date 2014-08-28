@@ -1,4 +1,4 @@
-Render is a command-line interface that renders HTML from [Jade](http://jade-lang.com/) templates, [Handlebars](http://handlebarsjs.com/) templates, [Swig](http://paularmstrong.github.io/swig/) templates and pretty much any other kind of templates you can think of.
+Render is an [ISC-licensed](https://raw.githubusercontent.com/stdbrouw/render/master/LICENSE) command-line interface that renders HTML from [Jade](http://jade-lang.com/) templates, [Handlebars](http://handlebarsjs.com/) templates, [Swig](http://paularmstrong.github.io/swig/) templates and pretty much any other kind of templates you can think of.
 
 ## Status
 
