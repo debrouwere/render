@@ -1,6 +1,6 @@
 {
   "name": "render-cli",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Render HTML from Jade, Handlebars, Swig and most other kinds of templates on the command line. Uses the consolidate.js template engine consolidation library for all heavy lifting.",
   "main": "index.js",
   "scripts": {
