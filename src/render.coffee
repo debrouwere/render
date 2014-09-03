@@ -1,7 +1,6 @@
-#!/usr/bin/env node
-
 fs = require 'fs'
 fs.path = require 'path'
+fs.mkdirp = require 'mkdirp'
 _ = require 'underscore'
 async = require 'async'
 {PathExp} = require 'simple-path-expressions'
@@ -18,6 +17,8 @@ program
         'The path or path template.'
     .option '-l --line-delimited', 
         'Line-delimited JSON.'
+    .option '-e, --engine <name>', 
+        'The templating engine to use. If not specified, we guess from the extension.'
     .option '-n, --namespaced', 
         'Namespace JSON input by its filename.'
     .option '-N, --fully-namespaced', 
@@ -36,10 +37,16 @@ trace = (obj, path='') ->
         obj = obj[segment] ?= {}
     obj
 
+unwrap = (str) ->
+    str.replace /\W?\n/g, ' '
+
 wrap = (obj, key) ->
     wrapped = {}
     wrapped[key] = obj
     wrapped
+
+fs.path.isDirectory = (path) ->
+    (path.slice -1) is '/'
 
 
 for path in program.context.split(',')
@@ -109,9 +116,21 @@ isCollection = program.iterate or no
 
 render = (context, callback) ->
     layout = layoutTemplate.fill context
-    # TODO: list all template language extensions
-    # and test on them (but allow for .html postfix)
-    language = 'jade'
+    extension = (fs.path.extname layout)[1..]
+    language = program.engine or extension
+    engines = _.pick consolidate, (value, key) -> value.render?
+    engineNames = _.keys engines
+    engine = engines[language]
+    unless engine
+        if program.engine
+            throw new Error unwrap \
+                """Could not find a templating engine matching 
+                #{program.engine}. Choose from #{engineNames}"""
+        else
+            throw new Error unwrap \
+                """Could not find a templating engine matching 
+                the extension #{extension}. Please use the --engine
+                option to clarify which engine you'd like to use."""
 
     if context.constructor is Array
         context = wrap context, (program.key or 'items')
@@ -119,10 +138,16 @@ render = (context, callback) ->
     consolidate[language] layout, context, (err, html) ->
         if err then return callback err
 
-        # TODO: create intermediary directories
         if program.output
-            output = outputTemplate.fill context
-            fs.writeFile output, html, {encoding: 'utf8'}, callback
+            destination = outputTemplate.fill context
+            if fs.path.isDirectory destination
+                destination += 'index.html'
+            directory = fs.path.dirname destination
+            fs.mkdirp directory, (err) ->
+                if err
+                    throw err
+                else
+                    fs.writeFile output, html, {encoding: 'utf8'}, callback
         else
             console.log html
             callback null
