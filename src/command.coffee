@@ -37,6 +37,8 @@ program
         'Render a template once for each key-value pair.'  
     .option '-k --key <name>', 
         'What name to give an array in the template context.'
+    .option '-v --verbose', 
+        'Output the path to each file being rendered.'
     .parse process.argv
 
 
@@ -47,7 +49,14 @@ layoutPattern = program.args[0]
 outputPattern = program.output
 
 options = _.pick program, 
-    'engine', 'namespaced', 'fullyNamespaced', 'newerThan', 'force', 'fast', 'key'
+    'engine'
+    'namespaced'
+    'fullyNamespaced'
+    'newerThan'
+    'force'
+    'fast'
+    'key'
+    'verbose'
 
 _.extend options, 
     many: program.many or program.manyPairs

@@ -4,6 +4,7 @@ fs.mkdirp = require 'mkdirp'
 async = require 'async'
 _ = require 'underscore'
 consolidate = require 'consolidate'
+colors = require 'colors'
 utils = require './utils'
 {unwrap} = utils.string
 fs.path.isDirectory = utils.isDirectory
@@ -15,8 +16,6 @@ engineList = engineNames.join ', '
 
 
 writeHTML = (path, html, callback) ->
-    if fs.path.isDirectory path
-        path += 'index.html'
     directory = fs.path.dirname path 
     resolvedPath = fs.path.resolve path
     mkdir = _.partial fs.mkdirp, directory
@@ -25,8 +24,12 @@ writeHTML = (path, html, callback) ->
 
 printHTML = (html, callback) ->
     console.log html
-    process.nextTick callback
+    utils.next callback
 
+logRender = (destination, extra..., callback) ->
+    console.log "✓".bold.green, "rendered".grey, destination
+    if typeof callback is 'function'
+        utils.next callback
 
 module.exports = (layoutTemplate, context, options, callback) ->
     layout = layoutTemplate.fill context
@@ -64,6 +67,8 @@ module.exports = (layoutTemplate, context, options, callback) ->
 
     if options.output
         destination = options.output.fill context
+        if fs.path.isDirectory destination
+            destination += 'index.html'
         output = _.partial writeHTML, destination
     else
         output = printHTML
@@ -79,8 +84,10 @@ module.exports = (layoutTemplate, context, options, callback) ->
                 html: (fs.statSync destination).mtime.getTime()
 
             if mtime.html > mtime.context and mtime.html > mtime.layout
-                return callback null
+                return utils.next callback, 'skipped'
         catch err
 
     render = _.partial renderingEngine, layout, context
-    async.waterfall [render, output], callback
+    log = _.partial logRender, destination
+    async.waterfall [render, output, log], (err) ->
+        callback err, 'rendered'

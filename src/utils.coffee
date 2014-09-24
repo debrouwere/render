@@ -1,5 +1,17 @@
 _ = require 'underscore'
 
+exports.round = (number, decimals=0) ->
+    power = Math.pow 10, decimals
+    (Math.round number * power) / power
+
+exports.next = (callback, args...) ->
+    process.nextTick ->
+        callback null, args...
+
+exports.passthrough = (args..., callback) ->
+    process.nextTick ->
+        callback null
+
 exports.isDirectory = (path) ->
     (path.slice -1) is '/'
 

@@ -1,6 +1,6 @@
 {
   "name": "render-cli",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Render HTML from Jade, Handlebars, Swig and most other kinds of templates on the command line. Uses the consolidate.js template engine consolidation library for all heavy lifting.",
   "main": "lib/index.js",
   "bin": {
@@ -28,8 +28,8 @@
   "homepage": "https://github.com/stdbrouw/render-cli",
   "dependencies": {
     "async": "^0.9.0",
-    "groupby-cli": "^0.1.1",
     "atpl": ">=0.7.6",
+    "colors": "^0.6.2",
     "commander": "^2.3.0",
     "consolidate": "^0.10.0",
     "dot": "1.0.1",
@@ -39,6 +39,7 @@
     "eco": "1.1.0-rc-3",
     "ect": "0.3.5",
     "ejs": "0.7.1",
+    "groupby-cli": "^0.1.1",
     "haml-coffee": "1.4.0",
     "hamljs": "0.6.1",
     "handlebars": "1.0.7",

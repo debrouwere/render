@@ -1,5 +1,6 @@
 _ = require 'underscore'
 async = require 'async'
+colors = require 'colors'
 {PathExp} = require 'simple-path-expressions'
 groupby = require 'groupby-cli'
 context = require './context'
@@ -9,6 +10,8 @@ utils = require './utils'
 
 
 module.exports = (layoutPattern, outputPattern, contextEnum, globalsEnum, options, callback) ->
+    start = new Date()
+    
     _.defaults options, 
         key: 'items'
 
@@ -36,9 +39,9 @@ module.exports = (layoutPattern, outputPattern, contextEnum, globalsEnum, option
         if offenders.length
             offenders = offenders.join ', '
             throw new Error unwrap \
-                "Found more than one dataset for #{offenders}.
+                "Found more than one context set for #{offenders}.
                 Pick an output filename template that produces a 
-                unique filename for each dataset."
+                unique filename for each set of context."
 
     if options.many
         unless outputTemplate.hasPlaceholders
@@ -51,9 +54,32 @@ module.exports = (layoutPattern, outputPattern, contextEnum, globalsEnum, option
                 "Rendering a collection requires input in the form of an array.
                 If your data is an object, consider specifying --many-pairs."
 
-    renderingOptions = _.pick options, 'engine', 'key', 'newerThan', 'force'
+    renderingOptions = _.pick options, 
+        'engine'
+        'key'
+        'newerThan'
+        'force'
+        'verbose'
     _.extend renderingOptions, 
         output: outputTemplate
 
     renderer = _.partial render, layoutTemplate, _, renderingOptions
-    async.each contexts, renderer, callback
+    # unfortunately, parallel rendering leads to too much filesystem
+    # contention to be of any use; it represents maybe a 2-3% 
+    # performance gain; instead we've chosen to render serially
+    async.mapSeries contexts, renderer, (err, operations) ->
+        counts = _.countBy operations, _.identity
+        _.defaults counts, 
+            rendered: 'no'
+            skipped: 'none'
+        stop = new Date()
+        preciseDuration = (stop - start) / 1000
+        duration = utils.round preciseDuration, 2
+        if options.verbose
+            if counts.rendered isnt 'no' then console.log ''
+            console.log unwrap \
+            "Rendered #{counts.rendered.toString().bold} pages 
+            and skipped #{counts.skipped.toString().bold} in 
+            #{duration.toString().bold} seconds."
+
+            callback err
