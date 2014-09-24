@@ -71,7 +71,7 @@ module.exports = (layoutTemplate, context, options, callback) ->
     # only rerender when needed
     # TODO: if no key is specified, use the context file's mtime
     # (which is a poor substitute, but still)
-    if options.output and options.newerThan and not options.fresh
+    if options.output and options.newerThan and not options.force
         try
             mtime =
                 context: (new Date utils.traverse context, options.newerThan).getTime()

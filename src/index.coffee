@@ -1,6 +1,7 @@
 _ = require 'underscore'
 async = require 'async'
 {PathExp} = require 'simple-path-expressions'
+groupby = require 'groupby-cli'
 context = require './context'
 render = require './render'
 utils = require './utils'
@@ -30,8 +31,8 @@ module.exports = (layoutPattern, outputPattern, contextEnum, globalsEnum, option
         contexts.forEach (context) ->
             _.defaults context, globals
 
-    if options.many
-        offenders = context.clashes contexts, outputPlaceholders
+    if options.many and not options.fast
+        offenders = groupby.clashes contexts, outputPlaceholders
         if offenders.length
             offenders = offenders.join ', '
             throw new Error unwrap \
@@ -50,7 +51,7 @@ module.exports = (layoutPattern, outputPattern, contextEnum, globalsEnum, option
                 "Rendering a collection requires input in the form of an array.
                 If your data is an object, consider specifying --many-pairs."
 
-    renderingOptions = _.pick options, 'engine', 'key', 'newerThan', 'fresh'
+    renderingOptions = _.pick options, 'engine', 'key', 'newerThan', 'force'
     _.extend renderingOptions, 
         output: outputTemplate
 

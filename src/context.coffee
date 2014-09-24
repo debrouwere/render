@@ -4,6 +4,7 @@ async = require 'async'
 _ = require 'underscore'
 yaml = require 'js-yaml'
 utils = require './utils'
+{unwrap} = utils.string
 
 
 parsePaths = (paths=[], options) ->
@@ -37,7 +38,6 @@ parseData = (raw, extension) ->
         else
             throw new Error "Context files need to be JSON or YAML."
 
-
 # REFACTOR: this function can use a more rigorous rethink
 merge = (sources...) ->
     for source in sources
@@ -54,11 +54,13 @@ merge = (sources...) ->
                     destination = {}
                     add = (hash) -> _.extend destination, hash
                 else
-                    throw new Error "Can only merge data from objects or arrays.
+                    throw new Error unwrap \
+                        "Can only merge data from objects or arrays.
                         Instead got: #{source.constructor}"
 
         if source.data.constructor isnt destination.constructor
-            throw new Error "Mixed data types.
+            throw new Error unwrap \
+                "Mixed data types.
                 Expected: #{destination.constructor.name}.
                 Instead got: #{source.constructor.name}."
 
@@ -80,17 +82,3 @@ exports.load = (pathList, options) ->
         path.data = parseData raw, extension
 
     merge paths...
-
-
-# Answers the question of whether a list of object properties
-# (the facets) can uniquely identify each object in a list.
-# 
-# This sounds abstract, but it's important because we don't want 
-# to render to the same destination for more than one data set.
-exports.clashes = (list, facets) ->
-    if list.length < 2 then return []
-
-    groups = _.groupBy list, (obj) ->
-        _.values _.pick obj, facets
-
-    offenders = _.keys _.pick groups, (group, key) -> group.length > 1
