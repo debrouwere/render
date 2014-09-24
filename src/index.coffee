@@ -9,8 +9,29 @@ utils = require './utils'
 {unwrap} = utils.string
 
 
+timing = {}
+
+
+describe = (timing, operations) ->
+    counts = _.countBy operations, _.identity
+    _.defaults counts, 
+        rendered: 0
+        skipped: 0
+
+    rps = utils.round counts.rendered / (utils.elapsed timing.render, timing.stop), 2
+    duration = utils.elapsed timing.start, timing.stop
+
+    if counts.rendered then console.log ''
+    console.log unwrap \
+    "Processed #{counts.rendered.toString().bold} pages.
+    Skipped #{counts.skipped.toString().bold} pages."
+    if counts.rendered
+        console.log unwrap \
+        "Rendered #{rps.toString().bold} pages per second, 
+        took #{duration.toString().bold} seconds in total."
+
 module.exports = (layoutPattern, outputPattern, contextEnum, globalsEnum, options, callback) ->
-    start = new Date()
+    timing.start = new Date()
     
     _.defaults options, 
         key: 'items'
@@ -67,19 +88,10 @@ module.exports = (layoutPattern, outputPattern, contextEnum, globalsEnum, option
     # unfortunately, parallel rendering leads to too much filesystem
     # contention to be of any use; it represents maybe a 2-3% 
     # performance gain; instead we've chosen to render serially
+    timing.render = new Date()
     async.mapSeries contexts, renderer, (err, operations) ->
-        counts = _.countBy operations, _.identity
-        _.defaults counts, 
-            rendered: 'no'
-            skipped: 'none'
-        stop = new Date()
-        preciseDuration = (stop - start) / 1000
-        duration = utils.round preciseDuration, 2
+        timing.stop = new Date()
         if options.verbose
-            if counts.rendered isnt 'no' then console.log ''
-            console.log unwrap \
-            "Rendered #{counts.rendered.toString().bold} pages 
-            and skipped #{counts.skipped.toString().bold} in 
-            #{duration.toString().bold} seconds."
+            describe timing, operations
 
-            callback err
+        callback err

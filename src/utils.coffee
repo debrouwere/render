@@ -4,6 +4,10 @@ exports.round = (number, decimals=0) ->
     power = Math.pow 10, decimals
     (Math.round number * power) / power
 
+exports.elapsed = (start, stop) ->
+    difference = (stop - start) / 1000
+    exports.round difference, 2
+
 exports.next = (callback, args...) ->
     process.nextTick ->
         callback null, args...
