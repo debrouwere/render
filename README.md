@@ -205,10 +205,10 @@ If your context data includes a date in ISO format, you're in luck. Using the `-
 
 The key flag indicates where in your data `render` can find the modified date.
 
-This is particularly useful when iterating over multiple context sets: two or three set of data might have changed but nothing else, and you shouldn't have to rerender all of it.
+This is particularly useful when iterating over multiple context sets: two or three sets of data might have changed but nothing else, and you shouldn't have to rerender all of it.
 
 ### Speed
 
-The speed of `render` will depend on the complexity of your templates and the speed of your CPU and hard drive. You can reasonably expect to be able to render about 10 to 20 pages per second.
+The speed of `render` will depend on the complexity of your templates, the template engine and the speed of your CPU and hard drive. You can reasonably expect to be able to render about 10 to 20 pages per second.
 
 IO is usually the bottleneck, even on machines with solid state drives, so `render` processes content serially to avoid filesystem contention.
