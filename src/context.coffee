@@ -7,7 +7,7 @@ utils = require './utils'
 {unwrap} = utils.string
 
 
-parsePaths = (paths=[], options) ->
+parsePaths = (paths=[], options={}) ->
     for path in _.compact paths.split(',')
         segments = path.split ':'
         filename = segments.pop()
@@ -71,9 +71,10 @@ merge = (sources...) ->
 
     destination
 
-
 exports.load = (pathList, options) ->
     paths = parsePaths pathList, (_.pick options, 'namespaced', 'fullyNamespaced')
+    
+    if not paths.length then return {}
 
     for path in paths
         {filename, namespace} = path
@@ -82,3 +83,10 @@ exports.load = (pathList, options) ->
         path.data = parseData raw, extension
 
     merge paths...
+
+exports.mtime = (pathList) ->
+    paths = _.pluck (parsePaths pathList), 'filename'
+    mtimes = paths
+        .map fs.statSync
+        .map (stats) -> stats.mtime
+    _.max mtimes

@@ -11,13 +11,7 @@ utils = require './utils'
 
 timing = {}
 
-
-describe = (timing, operations) ->
-    counts = _.countBy operations, _.identity
-    _.defaults counts, 
-        rendered: 0
-        skipped: 0
-
+describe = (timing, counts) ->
     rps = utils.round counts.rendered / (utils.elapsed timing.render, timing.stop), 2
     duration = utils.elapsed timing.start, timing.stop
 
@@ -39,8 +33,19 @@ module.exports = (layoutPattern, outputPattern, contextEnum, globalsEnum, option
     contexts = context.load contextEnum
     globals  = context.load globalsEnum
     layoutTemplate = new PathExp layoutPattern
-    outputTemplate = new PathExp outputPattern or ''
-    outputPlaceholders = _.pluck outputTemplate.placeholders, 'name'
+    if outputPattern
+        outputTemplate = new PathExp outputPattern
+        outputPlaceholders = _.pluck outputTemplate.placeholders, 'name'
+    else
+        outputTemplate = no
+        outputPlaceholders = []
+
+    # if no --newer-than date key is specified, use
+    # the newest context file's mtime instead
+    # (in some cases this works really well, 
+    # in others not at all)
+    if options.newerThan and typeof options.newerThan isnt 'string'
+        options.newerThan = context.mtime [contextEnum, globalsEnum].join ','
 
     if options.root
         contexts = contexts[options.root]
@@ -82,7 +87,7 @@ module.exports = (layoutPattern, outputPattern, contextEnum, globalsEnum, option
         'force'
         'verbose'
     _.extend renderingOptions, 
-        output: outputTemplate
+        output: outputTemplate or no
 
     renderer = _.partial render, layoutTemplate, _, renderingOptions
     # unfortunately, parallel rendering leads to too much filesystem
@@ -91,7 +96,12 @@ module.exports = (layoutPattern, outputPattern, contextEnum, globalsEnum, option
     timing.render = new Date()
     async.mapSeries contexts, renderer, (err, operations) ->
         timing.stop = new Date()
-        if options.verbose
-            describe timing, operations
+        counts = _.countBy operations, _.identity
+        _.defaults counts, 
+            rendered: 0
+            skipped: 0
 
-        callback err
+        if options.verbose
+            describe timing, counts
+
+        callback err, counts

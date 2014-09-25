@@ -7,11 +7,12 @@ program
     .version '0.2.0'
     .usage '<template> [options]'
     .option '-c --context <path>', 
-        'Input files that serve as context to your template.'
+        'Input files that serve as context to your template.', ''
     .option '-g --globals <path>', 
-        'Data that will be added to each context set.'
+        'Data that will be added to each context set.', ''
     .option '-d --defaults <path>',
-        'Data that will be added to each context set. This is just an alias: globals and defaults are merged together.'
+        'Data that will be added to each context set.
+        This is just an alias: globals and defaults are merged together.', ''
     .option '-o --output <path>', 
         'The path or path template.'
     .option '-e --engine <name>', 

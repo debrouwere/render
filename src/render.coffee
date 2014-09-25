@@ -72,14 +72,16 @@ module.exports = (layoutTemplate, context, options, callback) ->
         output = _.partial writeHTML, destination
     else
         output = printHTML
-    
-    # only rerender when needed
-    # TODO: if no key is specified, use the context file's mtime
-    # (which is a poor substitute, but still)
+
     if options.output and options.newerThan and not options.force
         try
+            if options.newerThan.constructor is Date
+                contextModified = options.newerThan               
+            else
+                contextModified = new Date utils.traverse context, options.newerThan
+
             mtime =
-                context: (new Date utils.traverse context, options.newerThan).getTime()
+                context: contextModified.getTime()
                 layout: (fs.statSync layout).mtime.getTime()
                 html: (fs.statSync destination).mtime.getTime()
 
