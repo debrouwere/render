@@ -28,7 +28,7 @@ exports.set = (obj, path, value) ->
     sub = obj
     segments = _.compact path.split '.'
     while segment = segments.shift()
-        if segments.length > 1
+        if segments.length
             sub = sub[segment] ?= {}
         else
             sub[segment] = value

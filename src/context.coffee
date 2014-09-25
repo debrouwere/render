@@ -18,11 +18,11 @@ parsePaths = (paths=[], options) ->
         # function for this path
         unless namespace
             if options.fullyNamespaced
-                namespace = fs.path.basename filename, extension    
-            else if options.namespaced
                 extensionlessFilename = filename.slice 0, -extension.length
-                namespace = extensionlessFilename.replace /\//g, '.'            
-        
+                namespace = extensionlessFilename.replace /\//g, '.'   
+            else if options.namespaced
+                namespace = fs.path.basename filename, extension             
+
         {filename, namespace}
 
 readData = (path) ->

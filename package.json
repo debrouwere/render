@@ -50,7 +50,7 @@
     "js-yaml": "^3.2.1",
     "just": "0.1.x",
     "liquor": "0.0.x",
-    "lodash": "3.x",
+    "lodash": "2.x",
     "mkdirp": "^0.5.0",
     "mote": "0.2.0",
     "mustache": "0.8.x",
