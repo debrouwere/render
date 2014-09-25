@@ -1,4 +1,14 @@
+# Render
+
+[![Build Status](https://travis-ci.org/stdbrouw/render.svg)](https://travis-ci.org/stdbrouw/render)
+
 Render is an advanced command-line interface that renders HTML from [Jade](http://jade-lang.com/) templates, [Handlebars](http://handlebarsjs.com/) templates, [Swig](http://paularmstrong.github.io/swig/) templates and pretty much [any other kind of templates](https://github.com/visionmedia/consolidate.js#supported-template-engines) you can think of.
+
+Install with [NPM](https://www.npmjs.org/) (bundled with [node.js](http://nodejs.org/)): 
+
+```shell
+npm install render-cli -g
+```
 
 Render comes with an [ISC license](http://en.wikipedia.org/wiki/ISC_license).
 
