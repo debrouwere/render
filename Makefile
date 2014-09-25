@@ -9,4 +9,6 @@ test: build
 	rm -rf examples/html
 	mocha test \
 		--require should \
-		--compilers coffee:coffee-script/register
+		--compilers coffee:coffee-script/register \
+		--slow 50 \
+		--timeout 3000
