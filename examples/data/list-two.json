@@ -1,7 +1,9 @@
 [{
     "year": 2014, 
-    "title": "Lucky Luke"
+    "title": "Lucky Luke", 
+    "slug": "lucky-luke"
 }, {
     "year": 2011, 
-    "title": "Tintin"
+    "title": "Tintin", 
+    "slug": "tintin"
 }]

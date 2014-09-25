@@ -1,11 +1,14 @@
 [{
     "year": 2014, 
-    "title": "Mansfield Park"
+    "title": "Mansfield Park", 
+    "slug": "mansfield-park"
 
 }, {
     "year": 2012, 
-    "title": "Oblomow"
+    "title": "Oblomow", 
+    "slug": "oblomow"
 }, {
     "year": 2012, 
-    "title": "Fathers and Sons"
+    "title": "Fathers and Sons", 
+    "slug": "fathers-and-sons"
 }]
