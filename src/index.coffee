@@ -60,20 +60,20 @@ module.exports = (layoutPattern, outputPattern, contextEnum, globalsEnum, option
         if offenders.length
             offenders = offenders.join ', '
             throw new Error unwrap \
-                "Found more than one context set for #{offenders}.
-                Pick an output filename template that produces a 
-                unique filename for each set of context."
+            "Found more than one context set for #{offenders}.
+            Pick an output filename template that produces a 
+            unique filename for each set of context."
 
     if options.many
         unless outputTemplate.hasPlaceholders
             throw new Error unwrap \
-                "Rendering a collection requires an output filename template 
-                with placeholders, to avoid rendering each context set to the 
-                same file."
+            "Rendering a collection requires an output filename template 
+            with placeholders, to avoid rendering each context set to the 
+            same file."
         unless contexts.constructor is Array
             throw new Error \
-                "Rendering a collection requires input in the form of an array.
-                If your data is an object, consider specifying --many-pairs."
+            "Rendering a collection requires input in the form of an array.
+            If your data is an object, consider specifying --many-pairs."
 
     renderingOptions = _.pick options, 
         'engine'

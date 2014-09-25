@@ -55,14 +55,14 @@ merge = (sources...) ->
                     add = (hash) -> _.extend destination, hash
                 else
                     throw new Error unwrap \
-                        "Can only merge data from objects or arrays.
-                        Instead got: #{source.constructor}"
+                    "Can only merge data from objects or arrays.
+                    Instead got: #{source.constructor}"
 
         if source.data.constructor isnt destination.constructor
             throw new Error unwrap \
-                "Mixed data types.
-                Expected: #{destination.constructor.name}.
-                Instead got: #{source.constructor.name}."
+            "Mixed data types.
+            Expected: #{destination.constructor.name}.
+            Instead got: #{source.constructor.name}."
 
         if destination.constructor is Object and source.namespace
             utils.set destination, source.namespace, source.data

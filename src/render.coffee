@@ -40,30 +40,30 @@ module.exports = (layoutTemplate, context, options, callback) ->
     unless renderingEngine
         if options.engine
             throw new Error unwrap \
-                "Could not find a templating engine matching 
-                #{options.engine}.
+            "Could not find a templating engine matching 
+            #{options.engine}.
 
-                Supported languages: #{engineList}"
+            Supported languages: #{engineList}"
         else
             throw new Error unwrap \
-                "Could not find a templating engine matching 
-                the extension #{extension}. Please use the --engine
-                option to clarify which engine you'd like to use.
+            "Could not find a templating engine matching 
+            the extension #{extension}. Please use the --engine
+            option to clarify which engine you'd like to use.
 
-                Supported languages: #{engineList}"
+            Supported languages: #{engineList}"
 
     if context.constructor is Array
         if options.key
             context = utils.kv options.key, context
         else
             throw new Error unwrap \
-                "Cannot pass on context data: expected 
-                an object but received an array.
+            "Cannot pass on context data: expected 
+            an object but received an array.
 
-                Consider using the --key option to wrap
-                your data in an object. Alternatively, 
-                use --many to treat each element of the 
-                array as a separate context."
+            Consider using the --key option to wrap
+            your data in an object. Alternatively, 
+            use --many to treat each element of the 
+            array as a separate context."
 
     if options.output
         destination = options.output.fill context
