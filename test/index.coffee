@@ -1,6 +1,7 @@
 _ = require 'underscore'
 fs = require 'fs'
 should = require 'should'
+{PathExp} = require 'simple-path-expressions'
 {load} = require '../src/context'
 render = require '../src/render'
 process = require '../src'
@@ -73,8 +74,15 @@ describe 'internals', ->
             load examples
         incompatible.should.throw()
 
-    it 'will throw an error when it cannot figure out the template engine'
-    it 'can render a layout'
+    it 'can render a layout', (done) ->
+        context =
+            title: 'Just a little sanity check.'
+        options =
+            engine: 'swig'
+        layoutTemplate = new PathExp 'examples/templates/detail.html'
+        render layoutTemplate, context, options, (err, op) ->
+            op.should.eql 'rendered'
+            done err
 
 describe 'command-line interface', ->
     it 'can render a layout'

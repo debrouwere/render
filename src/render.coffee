@@ -87,7 +87,11 @@ module.exports = (layoutTemplate, context, options, callback) ->
                 return utils.next callback, 'skipped'
         catch err
 
+    if options.output and options.verbose
+        log = _.partial logRender, destination
+    else
+        log = utils.passthrough
+
     render = _.partial renderingEngine, layout, context
-    log = _.partial logRender, destination
     async.waterfall [render, output, log], (err) ->
         callback err, 'rendered'
