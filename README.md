@@ -1,13 +1,13 @@
-Render is an advanced command-line interface that renders HTML from [Jade](http://jade-lang.com/) templates, [Handlebars](http://handlebarsjs.com/) templates, [Swig](http://paularmstrong.github.io/swig/) templates and pretty much any other kind of templates you can think of.
+Render is an advanced command-line interface that renders HTML from [Jade](http://jade-lang.com/) templates, [Handlebars](http://handlebarsjs.com/) templates, [Swig](http://paularmstrong.github.io/swig/) templates and pretty much [any other kind of templates](https://github.com/visionmedia/consolidate.js#supported-template-engines) you can think of.
 
 Render comes with an [ISC license](http://en.wikipedia.org/wiki/ISC_license).
 
 ### Features
 
 * **dynamic output** by passing JSON or YAML data (a.k.a. context variables) to your template
-* **one to many** means you can iterate over context data and render the same template once for each row of data.
+* **one to many** means you can iterate over context data and render the same template once for each set of data
 * a **generic interface** so you don't have to learn a different command-line utility for every templating language you'd like to give a try
-* **flexible naming** because your output path can specify placeholders and be a little template of its own.
+* **flexible naming** with output paths that can vary based on the data, using path placeholders
 
 ### Context variables
 
@@ -73,16 +73,17 @@ Each key will be available as `key`, each value as `value`.
 ### Namespacing context data
 
 You can pass more than one file to `render`. Objects will be merged, arrays will be appended to.
+
 When merging different inputs would result in name clashes, you have the option of namespacing
 the data from each input file.
 
 Namespaces come in three flavors: 
 
-Type      | Description                            | Flag
-----------|----------------------------------------|--------------------------------
-explicit  | you pick the namespace                 | --input (namespace):(filename)
-automatic | the basename of the file               | --namespaced
-automatic | and verbose: the full path of the file | --fully-namespaced
+Type      | Description               | Flag
+----------|---------------------------|--------------------------------
+explicit  | you pick the namespace    | --input (namespace):(filename)
+automatic | the basename of the file  | --namespaced
+automatic | the full path to the file | --fully-namespaced
 
 #### Explicit namespaces
 
@@ -166,11 +167,11 @@ render page.jade \
 
 ### Dynamic output paths
 
-Output paths can contain placeholders that will be interpolated to determine the final output filename for each rendered set of context. Think of your output path as a little template of its own.
+Output paths can contain placeholders that will be interpolated to determine the final path to which to write the HTML for each rendered set of context. Think of your output path as a little template of its own.
 
-If you're a web developer, this is all very similar to the kind of URL routing you're familiar with from web frameworks.
+If you're a web developer, this is similar to the kind of URL routing you see in web frameworks.
 
-In a path like `build/{date}/{permalink}`, the `date` and `permalink` keys in your data determine where the final HTML is saved to. This is especially useful when you ask render to iterate over your context data and render a separate file for each row of data.
+In a path like `build/{date}/{permalink}`, the `date` and `permalink` keys in your data determine where the final HTML ends up. This is especially useful when you ask render to iterate over your context data with `--many`, which will render and save each set of data separately.
 
 Paths are interpolated using the exact same context data that was used to render your template.
 
@@ -186,12 +187,18 @@ Pattern                        | Context                  | Output
 
 ### Supported template languages
 
-Render uses the [consolidate.js](https://github.com/visionmedia/consolidate.js) template engine consolidation library for all template rendering. Look at its documentation to find out all of the template languages supported by Render.
+Render uses the [consolidate.js](https://github.com/visionmedia/consolidate.js) template engine consolidation library for all template rendering. Its documentation contains [a list of all supported templating languages](https://github.com/visionmedia/consolidate.js#supported-template-engines).
 
-### Partial rerendering
+### Conditional rendering
 
 If your context data includes a date in ISO format, you're in luck. Using the `--newer-than <key>` flag, you can tell render to only re-render if the context data is newer than the HTML that's already there.
 
 The key flag indicates where in your data `render` can find the modified date.
 
-This is particularly useful when iterating over multiple context sets: two or three rows of data might have changed but nothing else, and you shouldn't have to rerender all of it.
+This is particularly useful when iterating over multiple context sets: two or three set of data might have changed but nothing else, and you shouldn't have to rerender all of it.
+
+### Speed
+
+The speed of `render` will depend on the complexity of your templates and the speed of your CPU and hard drive. You can reasonably expect to be able to render about 10 to 20 pages per second.
+
+IO is usually the bottleneck, even on machines with solid state drives, so `render` processes content serially to avoid filesystem contention.
