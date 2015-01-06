@@ -34,7 +34,11 @@ render page.jade \
 # context from multiple files which will be 
 # merged (if objects) or appended (if arrays)
 render page.jade \
-    --input globals.json,page.json
+    --context globals.json,page.json
+# specify globals separately (for clarity)
+render page.jade \
+    --context page.json \
+    --globals globals.json
 ```
 
 ### One-to-one and one-to-many
@@ -42,7 +46,10 @@ render page.jade \
 Render a single page:
 
 ```sh
+# output to `stdout`
 render page.jade
+# or redirect to wherever you like
+render page.jade > hello-world.html
 ```
 
 Render a single page with context:
@@ -50,35 +57,46 @@ Render a single page with context:
 ```sh
 # one template, one rendered html file
 render page.jade \
-    --input page.json
+    --context page.json
+```
+
+Pick your own output filename, optionally using information from the context: 
+
+```sh
+render page.jade \
+    --context page.json
+    --output 'pages/{title}'
 ```
 
 Render multiple pages, one for each item in an array:
 
 ```sh
 render tableofcontents.jade \
-    --input pages.json
+    --context pages.json
     --output 'pages/{permalink}'
     --many
-```
-
-If the array to iterate over is not at the root of the JSON file but is an property on an object, specify the key to that property: 
-
-```
-render tableofcontents.jade \
-    --input pages.json
-    --many pages
 ```
 
 If you'd like to iterate over the keys and values of an object instead, e.g. a url-to-title mapping, use:
 
 ```
 render tableofcontents.jade \
-    --input links.json
+    --context links.json
     --many-pairs
 ```
 
 Each key will be available as `key`, each value as `value`.
+
+The `--many` and `--many-pairs` options both accept an optional key to traverse to before iterating: 
+
+````
+render tableofcontents.jade \
+    --context pages.json
+    --output 'pages/{permalink}'
+    --many results.pages
+```
+
+Useful if you don't have control over the input JSON and the array or object to iterate over is not at the root. Note that you can traverse multiple levels using dot notation, e.g. `results.data.pages`.
 
 ### Namespacing context data
 
@@ -101,7 +119,7 @@ Explicit namespaces: put `globals.json` in a `globals` key rather than at the ro
 
 ```sh
 render page.jade \
-    --input globals:globals.json,page.json
+    --context globals:globals.json,page.json
 ```
 
 ```json
@@ -139,7 +157,7 @@ Automatic namespaces using the full path: `helpers/globals.json` will be accessi
 
 ```sh
 render page.jade \
-    --input helpers/globals.json,page.json
+    --context helpers/globals.json,page.json
     --fully-namespaced
 ```
 
@@ -160,7 +178,7 @@ Explicit namespaces take preference over automatic ones, so these globals will b
 
 ```sh
 render page.jade \
-    --input globals:helpers/globals.json,page.json
+    --context globals:helpers/globals.json,page.json
     --fully-namespaced
 ```
 

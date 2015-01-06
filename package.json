@@ -1,6 +1,6 @@
 {
   "name": "render-cli",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Render HTML from Jade, Handlebars, Swig and most other kinds of templates on the command line. Uses the consolidate.js template engine consolidation library for all heavy lifting.",
   "main": "lib/index.js",
   "bin": {
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/stdbrouw/render-cli"
+    "url": "git://github.com/debrouwere/render-cli"
   },
   "keywords": [
     "templating",
@@ -20,12 +20,16 @@
     "view",
     "consolidate"
   ],
-  "author": "Stijn Debrouwere",
+  "author": {
+    "name": "Stijn Debrouwere",
+    "email": "stijn@debrouwere.org", 
+    "url": "http://debrouwere.org"
+  }, 
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/stdbrouw/render-cli/issues"
+    "url": "https://github.com/debrouwere/render-cli/issues"
   },
-  "homepage": "https://github.com/stdbrouw/render-cli",
+  "homepage": "https://github.com/debrouwere/render-cli",
   "dependencies": {
     "async": "^0.9.0",
     "atpl": "0.7.x",

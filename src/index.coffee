@@ -48,7 +48,7 @@ module.exports = (layoutPattern, outputPattern, contextEnum, globalsEnum, option
         options.newerThan = context.mtime [contextEnum, globalsEnum].join ','
 
     if options.root
-        contexts = contexts[options.root]
+        contexts = utils.traverse contexts, options.root
 
     if options.pairs
         contexts = (_.pairs contexts).map ([key, value]) -> {key, value}

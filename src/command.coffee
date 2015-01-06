@@ -34,7 +34,7 @@ program
         'Does not perform certain uniqueness checks etc. '
     .option '-m --many [key]',
         'Render a template once for each item.'      
-    .option '-p --many-pairs', 
+    .option '-p --many-pairs [key]', 
         'Render a template once for each key-value pair.'  
     .option '-k --key <name>', 
         'What name to give an array in the template context.'
@@ -59,10 +59,13 @@ options = _.pick program,
     'key'
     'verbose'
 
+many = options.many or options.manyPairs
+root = if many?.constructor is String then many else null
+
 _.extend options, 
     many: program.many or program.manyPairs
     pairs: program.manyPairs
-    root: if typeof options.many is 'string' then options.many else null
+    root: root
 
 warn = (err) ->
     if err then console.log err
