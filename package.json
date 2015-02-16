@@ -43,7 +43,7 @@
     "eco": "1.x",
     "ect": "0.5.x",
     "ejs": "1.x",
-    "groupby-cli": "^0.1.1",
+    "groupby-cli": "^0.1.4",
     "haml-coffee": "1.x",
     "hamljs": "0.6.1",
     "handlebars": "2.x",
