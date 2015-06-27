@@ -2,7 +2,9 @@
 
 [![Build Status](https://travis-ci.org/debrouwere/render.svg)](https://travis-ci.org/debrouwere/render)
 
-Render is an advanced command-line interface that renders HTML from [Jade](http://jade-lang.com/) templates, [Handlebars](http://handlebarsjs.com/) templates, [Swig](http://paularmstrong.github.io/swig/) templates and pretty much [any other kind of templates](https://github.com/visionmedia/consolidate.js#supported-template-engines) you can think of.
+Render is an advanced command-line interface that renders text or HTML from [Jade](http://jade-lang.com/) templates, [Handlebars](http://handlebarsjs.com/) templates, [Swig](http://paularmstrong.github.io/swig/) templates and pretty much [any other kind of templates](https://github.com/visionmedia/consolidate.js#supported-template-engines) you can think of.
+
+Use it to generate your static site, to fill out code skeletons, to populate config files – anything you can think of.
 
 Install with [NPM](https://www.npmjs.org/) (bundled with [node.js](http://nodejs.org/)): 
 
