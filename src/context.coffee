@@ -2,7 +2,7 @@ fs = require 'fs'
 fs.path = require 'path'
 async = require 'async'
 _ = require 'underscore'
-yaml = require 'js-yaml'
+confert = require 'confert'
 utils = require './utils'
 {unwrap} = utils.string
 
@@ -24,19 +24,6 @@ parsePaths = (paths=[], options={}) ->
                 namespace = fs.path.basename filename, extension             
 
         {filename, namespace}
-
-readData = (path) ->
-    resolvedPath = fs.path.resolve path
-    fs.readFileSync resolvedPath, encoding: 'utf8'
-
-parseData = (raw, extension) ->
-    switch extension
-        when '.json'
-            JSON.parse raw
-        when '.yml', '.yaml'
-            yaml.safeLoad raw
-        else
-            throw new Error "Context files need to be JSON or YAML."
 
 # REFACTOR: this function can use a more rigorous rethink
 merge = (sources...) ->
@@ -79,8 +66,7 @@ exports.load = (pathList, options) ->
     for path in paths
         {filename, namespace} = path
         extension = fs.path.extname filename
-        raw = readData filename
-        path.data = parseData raw, extension
+        path.data = confert fs.path.resolve filename
 
     merge paths...
 
