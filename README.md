@@ -23,13 +23,11 @@ Render comes with an [ISC license](http://en.wikipedia.org/wiki/ISC_license).
 
 ### Context variables
 
-Pass context variables to your templates over `stdin` or with `--context <file>...` for dynamic rendering. Context can be YAML or JSON.
+Pass context variables to your templates with `--context <file>...` for dynamic rendering. Context can be YAML or JSON.
 
 ```sh
 # no context
 render page.jade
-# context from stdin
-cat page.json | render page.jade
 # context from a single file
 render page.jade \
     --input page.json
