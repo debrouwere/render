@@ -1,5 +1,6 @@
 fs = path: require 'path'
 program = require 'commander'
+colors = require 'colors'
 _ = require 'underscore'
 render = require './'
 
@@ -68,6 +69,6 @@ _.extend options,
     root: root
 
 warn = (err) ->
-    if err then console.log err
+    if err then console.log err.toString().red
 
 render layoutPattern, outputPattern, context, globals, options, warn
