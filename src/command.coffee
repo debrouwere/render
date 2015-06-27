@@ -5,7 +5,7 @@ _ = require 'underscore'
 render = require './'
 
 program
-    .version '0.3.0'
+    .version '0.3.1'
     .usage '<template> [options]'
     .option '-c --context <path>', 
         'Input files that serve as context to your template.', ''
@@ -22,7 +22,7 @@ program
         'Namespace JSON input by its filename.'
     .option '-N --fully-namespaced', 
         'Namespace JSON input by its full path.'
-    .option '-n --newer-than [key]', 
+    .option '-t --newer-than [key]', 
         'Only render a context set if the output file does not yet exist, or the context is newer.
         The modified time for the newest context file will be used in comparisons.
         Alternatively, for data that will be iterated through, the context file its modified time 
@@ -32,7 +32,7 @@ program
     .option '-f --force', 
         'Rerender everything. Negates --newer-than (if specified)'
     .option '-F --fast', 
-        'Does not perform certain uniqueness checks etc. '
+        'Speed up rendering by not checking whether each context set has a unique output path.'
     .option '-m --many [key]',
         'Render a template once for each item.'      
     .option '-p --many-pairs [key]', 
