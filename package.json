@@ -39,6 +39,7 @@
     "confert": "1.x",
     "mkdirp": "0.5.x",
     "simple-path-expressions": "^1.1.2",
+    "groupby-cli": "^0.2.1",
     "atpl": ">=0.7.6",
     "dot": "1.0.1",
     "dust": "0.3.0",
