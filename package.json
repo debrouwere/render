@@ -48,7 +48,7 @@
     "hamljs": "0.6.1",
     "handlebars": "2.x",
     "hogan.js": "3.x",
-    "jade": "1.x",
+    "jade": "1.9.x",
     "jazz": "0.0.18",
     "jqtpl": "1.1.0",
     "js-yaml": "^3.2.1",
