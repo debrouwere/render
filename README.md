@@ -89,7 +89,7 @@ Each key will be available as `key`, each value as `value`.
 
 The `--many` and `--many-pairs` options both accept an optional key to traverse to before iterating: 
 
-````
+```
 render tableofcontents.jade \
     --context pages.json
     --output 'pages/{permalink}'
