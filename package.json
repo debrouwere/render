@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/debrouwere/render-cli"
+    "url": "git://github.com/debrouwere/render"
   },
   "keywords": [
     "templating",
@@ -27,9 +27,9 @@
   }, 
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/debrouwere/render-cli/issues"
+    "url": "https://github.com/debrouwere/render/issues"
   },
-  "homepage": "https://github.com/debrouwere/render-cli",
+  "homepage": "https://github.com/debrouwere/render",
   "dependencies": {
     "async": "1.x",
     "underscore": "1.8.x",
