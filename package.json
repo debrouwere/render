@@ -22,9 +22,9 @@
   ],
   "author": {
     "name": "Stijn Debrouwere",
-    "email": "stijn@debrouwere.org", 
+    "email": "stijn@debrouwere.org",
     "url": "http://debrouwere.org"
-  }, 
+  },
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/debrouwere/render/issues"
