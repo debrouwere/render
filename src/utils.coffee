@@ -1,4 +1,7 @@
-_ = require 'underscore'
+_ =
+    compact: require 'lodash.compact'
+    partial: require 'lodash.partial'
+    extend: require 'lodash.assignin'
 
 exports.round = (number, decimals=0) ->
     power = Math.pow 10, decimals

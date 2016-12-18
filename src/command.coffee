@@ -1,7 +1,10 @@
 fs = path: require 'path'
 program = require 'commander'
 colors = require 'colors'
-_ = require 'underscore'
+_ =
+    compact: require 'lodash.compact'
+    pick: require 'lodash.pick'
+    extend: require 'lodash.assignin'
 render = require './'
 
 program

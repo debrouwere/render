@@ -1,7 +1,12 @@
 fs = require 'fs'
 fs.path = require 'path'
 async = require 'async'
-_ = require 'underscore'
+_ =
+    compact: require 'lodash.compact'
+    extend: require 'lodash.assignin'
+    pick: require 'lodash.pick'
+    pluck: require 'lodash.pluck'
+    max: require 'lodash.max'
 confert = require 'confert'
 utils = require './utils'
 {unwrap} = utils.string

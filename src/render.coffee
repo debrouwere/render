@@ -2,7 +2,10 @@ fs = require 'fs'
 fs.path = require 'path'
 fs.mkdirp = require 'mkdirp'
 async = require 'async'
-_ = require 'underscore'
+_ =
+    pickBy: require 'lodash.pickby'
+    keys: require 'lodash.keys'
+    partial: require 'lodash.partial'
 consolidate = require 'consolidate'
 colors = require 'colors'
 utils = require './utils'
@@ -10,7 +13,7 @@ utils = require './utils'
 fs.path.isDirectory = utils.isDirectory
 
 
-engines = _.pick consolidate, (value, key) -> value.render?
+engines = _.pickBy consolidate, (value, key) -> value.render?
 engineNames = _.keys engines
 engineList = engineNames.join ', '
 

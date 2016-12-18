@@ -1,4 +1,12 @@
-_ = require 'underscore'
+_ =
+    defaults: require 'lodash.defaults'
+    pluck: require 'lodash.pluck'
+    pairs: require 'lodash.pairs'
+    pick: require 'lodash.pick'
+    extend: require 'lodash.assignin'
+    partial: require 'lodash.partial'
+    countBy: require 'lodash.countBy'
+    identity: require 'lodash.identity'
 async = require 'async'
 colors = require 'colors'
 {PathExp} = require 'simple-path-expressions'
@@ -89,7 +97,7 @@ module.exports = (layoutPattern, outputPattern, contextEnum, globalsEnum, option
     _.extend renderingOptions, 
         output: outputTemplate or no
 
-    renderer = _.partial render, layoutTemplate, _, renderingOptions
+    renderer = (context, callback) -> render layoutTemplate, context, renderingOptions, callback
     # unfortunately, parallel rendering leads to too much filesystem
     # contention to be of any use; it represents maybe a 2-3% 
     # performance gain; instead we've chosen to render serially
