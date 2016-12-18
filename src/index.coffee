@@ -5,7 +5,7 @@ _ =
     pick: require 'lodash.pick'
     extend: require 'lodash.assignin'
     partial: require 'lodash.partial'
-    countBy: require 'lodash.countBy'
+    countBy: require 'lodash.countby'
     identity: require 'lodash.identity'
 async = require 'async'
 colors = require 'colors'
