@@ -60,7 +60,7 @@ options = _.pick program,
     'key'
     'verbose'
 
-many = options.many or options.manyPairs
+many = program.many or program.manyPairs
 root = if many?.constructor is String then many else null
 
 _.extend options,
