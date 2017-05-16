@@ -16,7 +16,7 @@ engineList = engineNames.join ', '
 
 
 writeHTML = (path, html, callback) ->
-    directory = fs.path.dirname path 
+    directory = fs.path.dirname path
     resolvedPath = fs.path.resolve path
     mkdir = _.partial fs.mkdirp, directory
     write = _.partial fs.writeFile, resolvedPath, html, encoding: 'utf8'
@@ -40,13 +40,13 @@ module.exports = (layoutTemplate, context, options, callback) ->
     unless renderingEngine
         if options.engine
             throw new Error unwrap \
-            "Could not find a templating engine matching 
+            "Could not find a templating engine matching
             #{options.engine}.
 
             Supported languages: #{engineList}"
         else
             throw new Error unwrap \
-            "Could not find a templating engine matching 
+            "Could not find a templating engine matching
             the extension #{extension}. Please use the --engine
             option to clarify which engine you'd like to use.
 
@@ -57,12 +57,12 @@ module.exports = (layoutTemplate, context, options, callback) ->
             context = utils.kv options.key, context
         else
             throw new Error unwrap \
-            "Cannot pass on context data: expected 
+            "Cannot pass on context data: expected
             an object but received an array.
 
             Consider using the --key option to wrap
-            your data in an object. Alternatively, 
-            use --many to treat each element of the 
+            your data in an object. Alternatively,
+            use --many to treat each element of the
             array as a separate context."
 
     if options.output
@@ -76,7 +76,7 @@ module.exports = (layoutTemplate, context, options, callback) ->
     if options.output and options.newerThan and not options.force
         try
             if options.newerThan.constructor is Date
-                contextModified = options.newerThan               
+                contextModified = options.newerThan
             else
                 contextModified = new Date utils.traverse context, options.newerThan
 
