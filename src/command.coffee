@@ -5,7 +5,7 @@ _ = require 'underscore'
 render = require './'
 
 program
-    .version '0.3.1'
+    .version '0.3.2'
     .usage '<template> [options]'
     .option '-c --context <path>',
         'Input files that serve as context to your template.', ''
